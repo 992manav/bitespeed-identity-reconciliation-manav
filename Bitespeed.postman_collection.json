@@ -1,0 +1,140 @@
+{
+  "info": {
+    "_postman_id": "bitespeed-collection",
+    "name": "Bitespeed Identity Reconciliation API",
+    "description": "Collection for testing the Bitespeed Identity Reconciliation API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/health",
+          "host": ["{{base_url}}"],
+          "path": ["health"]
+        },
+        "description": "Check if API is healthy and running"
+      }
+    },
+    {
+      "name": "Identify - Email Only",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"john@example.com\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/identify",
+          "host": ["{{base_url}}"],
+          "path": ["identify"]
+        },
+        "description": "Identify customer by email only"
+      }
+    },
+    {
+      "name": "Identify - Phone Only",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"phoneNumber\": \"+1234567890\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/identify",
+          "host": ["{{base_url}}"],
+          "path": ["identify"]
+        },
+        "description": "Identify customer by phone number only"
+      }
+    },
+    {
+      "name": "Identify - Email and Phone",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"john@example.com\",\n  \"phoneNumber\": \"+1234567890\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/identify",
+          "host": ["{{base_url}}"],
+          "path": ["identify"]
+        },
+        "description": "Identify customer with both email and phone"
+      }
+    },
+    {
+      "name": "Identify - New Customer",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"newuser@example.com\",\n  \"phoneNumber\": \"+9876543210\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/identify",
+          "host": ["{{base_url}}"],
+          "path": ["identify"]
+        },
+        "description": "Create new customer record"
+      }
+    },
+    {
+      "name": "Identify - Link Existing Customer",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"john@gmail.com\"\n}"
+        },
+        "url": {
+          "raw": "{{base_url}}/identify",
+          "host": ["{{base_url}}"],
+          "path": ["identify"]
+        },
+        "description": "Link new email to existing customer"
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:3000",
+      "type": "string"
+    }
+  ]
+}

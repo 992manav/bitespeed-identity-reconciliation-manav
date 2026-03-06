@@ -1,0 +1,49 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: bitespeed_postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: bitespeed_dev
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - bitespeed_network
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: builder
+    container_name: bitespeed_app
+    environment:
+      NODE_ENV: development
+      DATABASE_URL: 'postgresql://postgres:postgres@postgres:5432/bitespeed_dev'
+      PORT: 3000
+    ports:
+      - '3000:3000'
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - .:/app
+      - /app/node_modules
+    networks:
+      - bitespeed_network
+    command: sh -c "npm ci && npx prisma generate && npm run dev"
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  bitespeed_network:
+    driver: bridge

@@ -211,7 +211,7 @@ Health check endpoint for monitoring.
 
 ```sql
 CREATE TABLE contacts (
-  id               INTEGER PRIMARY KEY AUTOINCREMENT,
+  id               SERIAL PRIMARY KEY,
   phoneNumber      VARCHAR(255),
   email            VARCHAR(255),
   linkedId         INTEGER,
@@ -271,7 +271,7 @@ Existing Data:
 Request: { "email": "alice@example.com", "phoneNumber": "+3333333333" }
 
 Result:
-- Contact #1 is newer, so stays primary
+- Contact #1 is older, so stays primary
 - Contact #2 is converted to secondary linked to #1
 - New contact created as secondary
 - Returns all emails/phones consolidated under #1
@@ -366,8 +366,8 @@ CORS_ORIGIN=https://your-frontend-domain.com
    ```
    Name: bitespeed-identity-reconciliation
    Environment: Node
-   Build Command: npm install && npm run build && npm run prisma:push
-   Start Command: node dist/index.js
+  Build Command: npm install && npx prisma generate && npm run build
+  Start Command: npx prisma migrate deploy && node dist/index.js
    ```
 
 5. Add environment variables:
@@ -593,14 +593,5 @@ app.use('/identify', limiter);
 - Database indexes for O(1) lookups
 - Stateless API (scales horizontally)
 
-## License
-
-MIT
-
-## Support
-
-For issues or questions, please open an issue in the repository.
-
----
 
 **Built with ❤️ for customer identity management**

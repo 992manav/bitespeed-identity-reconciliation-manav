@@ -61,8 +61,8 @@ cat .gitignore | grep "^.env$"
    ```
    Name: bitespeed-api
    Environment: Node
-   Build Command: npm install && npm run prisma:push && npm run build
-   Start Command: node dist/index.js
+   Build Command: npm install && npx prisma generate && npm run build
+   Start Command: npx prisma migrate deploy && node dist/index.js
    Plan: Free (or Starter for better performance)
    ```
 
@@ -126,8 +126,8 @@ curl -X POST https://<your-app-name>.onrender.com/identify \
 1. Update `prisma/schema.prisma`
 2. Commit code change
 3. Push to GitHub - auto-deployment runs:
-   - Runs: `npm run prisma:push`
-   - Applies schema changes automatically
+   - Runs: `npx prisma migrate deploy`
+   - Applies committed migrations automatically
 
 ### Manual Redeploy
 
@@ -173,7 +173,7 @@ Error: connect ECONNREFUSED
 Error: listen EADDRINUSE
 ```
 
-→ Render uses port 10000, update Start Command
+→ Ensure your app reads `process.env.PORT` and avoid hardcoding the port
 
 **Out of memory:**
 → Upgrade to Starter plan with more RAM
